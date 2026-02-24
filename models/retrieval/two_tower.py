@@ -140,11 +140,12 @@ class UserTower(nn.Module):
         # Pool embeddings
         if self.pooling == "mean":
             if sequence_lengths is not None:
-                # Masked mean pooling - fix CUDA error by creating arange on CPU first
+                # Masked mean pooling - fix CUDA error
                 batch_size, seq_len, _ = item_embeds.size()
-                mask = torch.arange(seq_len).unsqueeze(0).expand(batch_size, -1)
-                mask = (mask < sequence_lengths.cpu().unsqueeze(1)).to(item_embeds.device)
-                mask = mask.unsqueeze(-1).float()
+                # Create indices on same device as sequence_lengths
+                indices = torch.arange(seq_len, device=sequence_lengths.device).unsqueeze(0).expand(batch_size, -1)
+                # Compare on same device
+                mask = (indices < sequence_lengths.unsqueeze(1)).unsqueeze(-1).float()
                 pooled = (item_embeds * mask).sum(dim=1) / (mask.sum(dim=1) + 1e-9)
             else:
                 pooled = item_embeds.mean(dim=1)
