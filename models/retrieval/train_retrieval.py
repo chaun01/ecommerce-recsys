@@ -384,11 +384,10 @@ def main():
     stats_path = Path(config["data"]["train_file"]).parent / "dataset_stats.parquet"
     stats = pd.read_parquet(stats_path).iloc[0]
 
-    # Update config with data statistics
-    config["data"]["num_items"] = int(stats["num_items"]) + 1  # +1 for padding
-
-    # Get number of categories
+    # Get number of items and categories from item_features (not stats)
     item_features = pd.read_parquet(config["data"]["item_features_file"])
+    # num_items must be max_item_idx + 1 to include all indices from 0 to max_item_idx
+    config["data"]["num_items"] = int(item_features['item_idx'].max()) + 1
     config["data"]["num_categories"] = int(item_features['categoryid'].max()) + 1
 
     logger.info(f"Number of items: {config['data']['num_items']}")
