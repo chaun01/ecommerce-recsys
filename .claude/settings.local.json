@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python data/preprocessing.py:*)",
+      "Bash(python:*)",
+      "Bash(timeout 5 bash:*)",
+      "Bash(curl:*)",
+      "Bash(dir:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(del nul)",
+      "Bash(git init:*)"
+    ]
+  }
+}

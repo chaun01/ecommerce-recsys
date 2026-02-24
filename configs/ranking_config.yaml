@@ -1,0 +1,52 @@
+# Wide & Deep Ranking Model Configuration
+
+model:
+  name: "wide_and_deep"
+
+  # Wide component
+  wide:
+    cross_features:
+      - ["user_category_hist", "item_category"]
+      - ["price_bucket", "user_price_pref"]
+      - ["recency_bucket", "item_popularity"]
+
+  # Deep component
+  deep:
+    input_dim: 128  # user_emb(64) + item_emb(64)
+    hidden_dims: [128, 64, 32]
+    activation: "relu"
+    dropout: 0.3
+    batch_norm: true
+
+training:
+  batch_size: 256
+  epochs: 15
+  learning_rate: 0.0005
+  weight_decay: 0.00001
+  optimizer: "adamw"
+
+  # Loss function
+  loss: "bce"  # binary cross-entropy or "bpr" for bayesian personalized ranking
+
+  # Negative sampling
+  num_negatives: 4
+  negative_sampling: "in_batch"
+
+data:
+  num_candidates: 100  # Retrieved from FAISS
+  train_file: "data/processed/train_interactions.parquet"
+  val_file: "data/processed/val_interactions.parquet"
+  retrieval_ckpt: "models/retrieval/checkpoints"
+
+  # Feature engineering
+  price_buckets: [0, 1000, 5000, 10000, 50000]
+  recency_buckets: [1, 3, 7, 14, 30]  # days
+
+logging:
+  log_interval: 50
+  save_interval: 1
+  output_dir: "models/ranking/checkpoints"
+  tensorboard: false
+  wandb: false
+
+seed: 42

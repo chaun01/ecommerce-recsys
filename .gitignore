@@ -1,0 +1,80 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# PyTorch
+*.pth
+*.pt
+*.ckpt
+
+# Data files
+*.csv
+*.parquet
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# FAISS indices
+*.faiss
+*.index
+
+# Logs
+logs/
+*.log
+mlruns/
+wandb/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Docker
+.dockerignore
+
+# Processed data (keep structure, ignore files)
+data/processed/*.parquet
+data/processed/*.npy
+
+# Model checkpoints (keep structure, ignore weights)
+models/*/checkpoints/*.pth
+models/*/checkpoints/*.npy
+
+# Keep directory structure
+!.gitkeep

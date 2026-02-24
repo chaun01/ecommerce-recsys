@@ -1,0 +1,114 @@
+Project Next Purchase Prediction (E-commerce)
+Use Case
+Predict the next product that a user is most likely to purchase.
+Dataset
+RetailRocket Dataset: In the folder data
+The dataset consists of three files: a file with behaviour data (events.csv), a file with item properties (item_properties.сsv) and a file, which describes category tree (category_tree.сsv). The data has been collected from a real-world ecommerce website. It is raw data, i.e. without any content transformations, however, all values are hashed due to confidential issues. The purpose of publishing is to motivate researches in the field of recommender systems with implicit feedback.
+
+Pipeline
+Retrieval Model
+Two-Tower Neural Model
+(User representation can be built from recent clicks and browsing behavior, and item tower represents product embeddings)
+Ranking Model
+Wide & Deep or DeepFM
+(E-commerce ranking benefits from combining dense embeddings with wide feature crosses: price, category, recency,..)
+Optional Extension
+LLM reranker using product titles and user history
+
+1. Project Objective
+The goal of this project is to build a complete end-to-end Recommendation System that covers the full machine learning and engineering pipeline, from raw data processing to online inference.
+
+Must implement:
+Data preprocessing
+Retrieval model
+Approximate nearest neighbor search
+Ranking model
+LLM-based reranker
+REST API serving
+Offline evaluation and ablation analysis
+The final system should simulate a real-world production-style recommendation pipeline (without requiring CI/CD or service scaling).
+
+2. Common Pipeline (Applied to All Projects)
+All projects must follow the same system architecture and processing stages.
+
+2.1 Data Pipeline
+Preprocess an implicit / explicit feedback dataset
+Convert raw interactions into user–item interaction format (if needed)
+Perform train/validation/test split (preferably time-based)
+2.2 Retrieval Model
+Train a retrieval model
+Supported models:
+  ◦ ALS
+  ◦ Two-Tower neural model
+  ◦ Item2Vec (skip-gram style)
+  ◦ Graph-based RecSys
+  ◦ …
+Export trained user embeddings and item embeddings
+2.3 Approximate Nearest Neighbor Search (FAISS)
+Build a FAISS index from item embeddings
+Retrieve Top-N candidate items for a given user embedding
+2.4 Ranking Model
+Train a supervised ranking model using retrieved candidates
+Input features may include:
+ ◦ User embedding
+ ◦ Item embedding
+ ◦ Interaction features (optional)
+Supported models:
+ ◦ BPR
+ ◦ NeuMF
+ ◦ Wide & Deep, DeepFM
+ ◦ Sequential Model
+ ◦ MAB
+ ◦ …
+Output a relevance score for each candidate
+Rerank the retrieved Top-N list
+2.5 LLM Reranker
+Use a Large Language Model to rescore candidate items
+Input to the LLM:
+ ◦ User history
+ ◦ Candidate item metadata (e.g., title, category)
+Output:
+ ◦ A reranked list based on semantic relevance
+2.6 API Serving
+Build a REST API that implements the following flow: input user → retrieval → reranking → output Top-K recommendations
+Required:
+◦ At least one endpoint for inference
+◦ Implement using FastAPI
+◦ Containerize with Docker
+2.7 Evaluation Report
+Report at least the following metrics:
+◦ Recall@K
+◦ NDCG@K
+Perform an ablation study comparing:
+◦ Retrieval only
+◦ Retrieval + Ranking
+◦ Retrieval + Ranking + LLM (if implemented)
+3. System Diagram Requirement
+Each project must include a system architecture diagram showing:
+Offline pipeline:
+◦ Data preprocessing
+◦ Model training
+◦ Embedding export
+◦ FAISS index building
+Online pipeline:
+◦ API request
+◦ Retrieval
+◦ Ranking
+◦ Response generation
+The diagram must clearly separate:
+Training phase
+Inference phase
+4. Engineering Requirements
+Students must implement:
+Modular project structure (suggested):  
+◦ data/
+◦ models/
+◦ retrieval/
+◦ ranking/
+◦ api/
+◦ evaluation/
+Use PyTorch for model training
+Use FAISS for ANN search
+Use Python-based REST API
+Code must be reproducible and well documented, published on personal Github
+
