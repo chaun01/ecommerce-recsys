@@ -209,11 +209,12 @@ class RetailRocketPreprocessor:
         logger.info("Creating ID mappings...")
 
         # Create mappings from original IDs to sequential indices
+        # Reserve index 0 for padding, start from 1
         unique_users = sorted(df['visitorid'].unique())
         unique_items = sorted(df['itemid'].unique())
 
-        user_mapping = {user_id: idx for idx, user_id in enumerate(unique_users)}
-        item_mapping = {item_id: idx for idx, item_id in enumerate(unique_items)}
+        user_mapping = {user_id: idx + 1 for idx, user_id in enumerate(unique_users)}
+        item_mapping = {item_id: idx + 1 for idx, item_id in enumerate(unique_items)}
 
         # Add mapped IDs to dataframe
         df['user_idx'] = df['visitorid'].map(user_mapping)
