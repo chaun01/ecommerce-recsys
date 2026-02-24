@@ -142,8 +142,11 @@ class UserTower(nn.Module):
             if sequence_lengths is not None:
                 # Masked mean pooling - fix CUDA error
                 batch_size, seq_len, _ = item_embeds.size()
-                # Create indices on same device as sequence_lengths
-                indices = torch.arange(seq_len, device=sequence_lengths.device).unsqueeze(0).expand(batch_size, -1)
+                # Clamp sequence lengths to valid range [0, seq_len]
+                sequence_lengths = torch.clamp(sequence_lengths, 0, seq_len)
+                # Create indices on CPU, then move to device
+                indices = torch.arange(seq_len, dtype=torch.long).unsqueeze(0).expand(batch_size, -1)
+                indices = indices.to(sequence_lengths.device)
                 # Compare on same device
                 mask = (indices < sequence_lengths.unsqueeze(1)).unsqueeze(-1).float()
                 pooled = (item_embeds * mask).sum(dim=1) / (mask.sum(dim=1) + 1e-9)
