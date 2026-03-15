@@ -23,7 +23,3 @@ env/
 # Secrets
 .env
 *.key
-
-# Excluded from submission
-CLAUDE.md
-project.txt
