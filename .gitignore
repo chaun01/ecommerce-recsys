@@ -1,0 +1,29 @@
+# Data files (too large for git)
+data/*.csv
+data/processed/
+
+# Model artifacts
+models/*.pt
+models/*.npy
+models/*.bin
+models/*.pkl
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets
+.env
+*.key
+
+# Excluded from submission
+CLAUDE.md
+project.txt

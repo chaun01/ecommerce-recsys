@@ -1,0 +1,15 @@
+============================================================
+ABLATION STUDY SUMMARY
+============================================================
+Metric             Retrieval  Ret+Ranking
+---------------------------------------
+Recall@5              0.0360       0.0501
+NDCG@5                0.0312       0.0503
+Recall@10             0.0399       0.0510
+NDCG@10               0.0325       0.0504
+Recall@20             0.0444       0.0525
+NDCG@20               0.0338       0.0508
+============================================================
+
+Note: LLM reranker evaluation requires OPENAI_API_KEY and is
+expensive to run on full test set. Use --llm flag for sampling.
